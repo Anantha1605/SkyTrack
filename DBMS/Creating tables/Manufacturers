@@ -1,0 +1,5 @@
+CREATE TABLE Manufacturers (
+    manufacturer_name VARCHAR(100) PRIMARY KEY NOT NULL,
+    number_of_models INT NOT NULL,
+    fuel_consumption DECIMAL(10, 2) NOT NULL
+);
