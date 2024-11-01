@@ -1,0 +1,41 @@
+#This procedure adds a new booking for a passenger.
+
+DELIMITER //
+
+CREATE PROCEDURE Add_Booking(
+    IN p_passenger_id INT,
+    IN p_flight_id INT,
+    IN p_seat_number VARCHAR(100),
+    IN p_class VARCHAR(100),
+    IN p_booking_status VARCHAR(100),
+    IN p_payment_status VARCHAR(100),
+    IN p_payment_method VARCHAR(100),
+    IN p_ticket_price DECIMAL(10, 2)
+)
+BEGIN
+    INSERT INTO Bookings (
+        booking_date,
+        travel_date,
+        seat_number,
+        class,
+        booking_status,
+        payment_status,
+        payment_method,
+        ticket_price,
+        flight_id,
+        passenger_id
+    ) VALUES (
+        NOW(),
+        CURDATE() + INTERVAL 1 DAY, -- Example travel date: 1 day from now
+        p_seat_number,
+        p_class,
+        p_booking_status,
+        p_payment_status,
+        p_payment_method,
+        p_ticket_price,
+        p_flight_id,
+        p_passenger_id
+    );
+END //
+
+DELIMITER ;
