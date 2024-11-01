@@ -1,0 +1,4 @@
+ALTER TABLE Flights
+ADD CONSTRAINT fk_flights_destinations
+FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
+ON DELETE CASCADE ON UPDATE CASCADE;
