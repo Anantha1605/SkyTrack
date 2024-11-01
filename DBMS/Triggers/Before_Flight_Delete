@@ -1,0 +1,20 @@
+#Prevents the deletion of a flight if there are existing bookings for that flight.
+
+DELIMITER //
+
+CREATE TRIGGER Before_Flight_Delete
+BEFORE DELETE ON Flights
+FOR EACH ROW
+BEGIN
+    DECLARE booking_count INT;
+    SELECT COUNT(*) INTO booking_count 
+    FROM Bookings 
+    WHERE flight_id = OLD.flight_id;
+
+    IF booking_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot delete flight; bookings exist for this flight.';
+    END IF;
+END //
+
+DELIMITER ;
