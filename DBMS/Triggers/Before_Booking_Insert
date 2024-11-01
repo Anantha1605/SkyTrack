@@ -1,0 +1,20 @@
+#This trigger checks if the seat is already booked before a new booking is inserted.
+
+DELIMITER //
+
+CREATE TRIGGER Before_Booking_Insert
+BEFORE INSERT ON Bookings
+FOR EACH ROW
+BEGIN
+    DECLARE seat_count INT;
+    SELECT COUNT(*) INTO seat_count 
+    FROM Bookings 
+    WHERE flight_id = NEW.flight_id AND seat_number = NEW.seat_number;
+
+    IF seat_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Seat already booked for this flight!';
+    END IF;
+END //
+
+DELIMITER ;
