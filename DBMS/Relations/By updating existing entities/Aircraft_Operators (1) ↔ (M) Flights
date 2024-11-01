@@ -1,0 +1,4 @@
+ALTER TABLE Flights
+ADD CONSTRAINT fk_flights_aircraft
+FOREIGN KEY (aircraft_id) REFERENCES Aircraft_Operators(aircraft_id)
+ON DELETE CASCADE ON UPDATE CASCADE;
