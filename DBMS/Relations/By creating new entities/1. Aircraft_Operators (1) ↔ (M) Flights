@@ -1,0 +1,9 @@
+CREATE TABLE Aircraft_Flights (
+    aircraft_id INT,
+    flight_id INT,
+    PRIMARY KEY (aircraft_id, flight_id),
+    FOREIGN KEY (aircraft_id) REFERENCES Aircraft_Operators(aircraft_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (flight_id) REFERENCES Flights(flight_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
