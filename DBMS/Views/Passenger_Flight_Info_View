@@ -1,0 +1,18 @@
+#This view provides detailed information about passengers and their corresponding flight bookings.
+
+CREATE VIEW Passenger_Flight_Info_View AS
+SELECT 
+    p.passenger_id,
+    p.first_name,
+    p.last_name,
+    b.booking_id,
+    b.travel_date,
+    f.flight_id,
+    f.departure_time,
+    f.arrival_time
+FROM 
+    Passengers p
+JOIN 
+    Bookings b ON p.passenger_id = b.passenger_id
+JOIN 
+    Flights f ON b.flight_id = f.flight_id;
