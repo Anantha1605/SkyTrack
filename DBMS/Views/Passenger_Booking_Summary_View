@@ -1,0 +1,15 @@
+#This view summarizes each passenger's total bookings and total amount spent.
+
+CREATE VIEW Passenger_Booking_Summary_View AS
+SELECT 
+    p.passenger_id,
+    p.first_name,
+    p.last_name,
+    COUNT(b.booking_id) AS total_bookings,
+    SUM(b.ticket_price) AS total_spent
+FROM 
+    Passengers p
+LEFT JOIN 
+    Bookings b ON p.passenger_id = b.passenger_id
+GROUP BY 
+    p.passenger_id;
