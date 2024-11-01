@@ -1,0 +1,62 @@
+CREATE TABLE Aircraft_Operators (
+    aircraft_id INT PRIMARY KEY,
+    manufacturer_name VARCHAR(100) NOT NULL,
+    operator_name VARCHAR(100) NOT NULL,
+    model VARCHAR(100) NOT NULL,
+    last_maintenance_date DATE,
+    maintenance_status ENUM('maintenance_due', 'under_maintenance', 'ready', 'not_needed'),
+    base_of_operation VARCHAR(100) NOT NULL,
+    fleet_size INT,
+    website VARCHAR(100),
+    address VARCHAR(100),
+    number_of_staff INT
+);
+
+CREATE TABLE Destinations (
+    destination_id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Flights (
+    flight_id INT PRIMARY KEY,
+    aircraft_id INT,
+    destination_id INT,
+    departure_time DATETIME NOT NULL,
+    arrival_time DATETIME NOT NULL,
+    FOREIGN KEY (aircraft_id) REFERENCES Aircraft_Operators(aircraft_id),
+    FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
+);
+
+CREATE TABLE Passengers (
+    passenger_id INT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100),
+    date_of_birth DATE NOT NULL,
+    gender VARCHAR(100),
+    nationality VARCHAR(100),
+    passport_number VARCHAR(100),
+    email VARCHAR(100),
+    phone_number VARCHAR(100),
+    frequent_flyer BOOLEAN,
+    address VARCHAR(100),
+    emergency_contact VARCHAR(100)
+);
+
+CREATE TABLE Bookings (
+    booking_id INT PRIMARY KEY,
+    booking_date DATETIME NOT NULL,
+    travel_date DATETIME NOT NULL,
+    seat_number VARCHAR(100) NOT NULL,
+    class VARCHAR(100) NOT NULL,
+    booking_status VARCHAR(100),
+    payment_status VARCHAR(100),
+    payment_method VARCHAR(100),
+    ticket_price DECIMAL(10, 2),
+    special_requests VARCHAR(100),
+    baggage_allowance VARCHAR(100),
+    flight_id INT,
+    passenger_id INT,
+    FOREIGN KEY (flight_id) REFERENCES Flights(flight_id),
+    FOREIGN KEY (passenger_id) REFERENCES Passengers(passenger_id)
+);
