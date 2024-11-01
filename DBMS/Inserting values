@@ -1,0 +1,99 @@
+-- Insert into Aircraft_Operators (10 entries)
+INSERT INTO Aircraft_Operators (aircraft_id, manufacturer_name, operator_name, model, last_maintenance_date, maintenance_status, base_of_operation, fleet_size, website, address, number_of_staff) VALUES
+(1, 'Boeing', 'Sky Airlines', 'Boeing 737', '2024-01-15', 'ready', 'New York', 10, 'www.skyairlines.com', '123 Sky St, New York, NY', 100),
+(2, 'Airbus', 'Global Air', 'Airbus A320', '2024-02-20', 'under_maintenance', 'Los Angeles', 15, 'www.globalair.com', '456 Global Ave, Los Angeles, CA', 150),
+(3, 'Bombardier', 'Regional Wings', 'Bombardier Q400', '2024-03-10', 'maintenance_due', 'Chicago', 8, 'www.regionalwings.com', '789 Regional Rd, Chicago, IL', 50),
+(4, 'Embraer', 'City Express', 'Embraer 175', '2024-04-05', 'ready', 'Miami', 12, 'www.cityexpress.com', '321 City Ln, Miami, FL', 75),
+(5, 'Boeing', 'Fast Flights', 'Boeing 777', '2024-01-20', 'under_maintenance', 'Houston', 5, 'www.fastflights.com', '654 Fast St, Houston, TX', 80),
+(6, 'Airbus', 'Airway Partners', 'Airbus A350', '2024-02-10', 'maintenance_due', 'San Francisco', 20, 'www.airwaypartners.com', '987 Airway Blvd, SF, CA', 200),
+(7, 'Lockheed', 'Defense Aviation', 'Lockheed C-130', '2024-03-01', 'ready', 'Washington', 6, 'www.defenseaviation.com', '555 Defense Dr, Washington, DC', 30),
+(8, 'Boeing', 'Elite Airways', 'Boeing 787', '2024-04-15', 'ready', 'Seattle', 8, 'www.eliteairways.com', '888 Elite St, Seattle, WA', 90),
+(9, 'Airbus', 'Sky Connect', 'Airbus A330', '2024-03-25', 'under_maintenance', 'Atlanta', 10, 'www.skyconnect.com', '222 Skyway, Atlanta, GA', 110),
+(10, 'Bombardier', 'Regional Express', 'Bombardier CRJ900', '2024-02-28', 'maintenance_due', 'Denver', 7, 'www.regionalexpress.com', '333 Regional Blvd, Denver, CO', 40);
+
+-- Insert into Destinations (10 entries)
+INSERT INTO Destinations (destination_id, name) VALUES
+(1, 'Los Angeles'),
+(2, 'Chicago'),
+(3, 'Miami'),
+(4, 'Houston'),
+(5, 'Seattle'),
+(6, 'New York'),
+(7, 'San Francisco'),
+(8, 'Atlanta'),
+(9, 'Denver'),
+(10, 'Washington');
+
+-- Insert into Flights (15 entries)
+INSERT INTO Flights (flight_id, aircraft_id, destination_id, departure_time, arrival_time) VALUES
+(1, 1, 1, '2024-04-01 08:00:00', '2024-04-01 11:00:00'),
+(2, 2, 2, '2024-04-02 09:00:00', '2024-04-02 12:00:00'),
+(3, 3, 3, '2024-04-03 10:00:00', '2024-04-03 13:00:00'),
+(4, 4, 4, '2024-04-04 11:00:00', '2024-04-04 14:00:00'),
+(5, 5, 5, '2024-04-05 12:00:00', '2024-04-05 15:00:00'),
+(6, 6, 6, '2024-04-06 13:00:00', '2024-04-06 16:00:00'),
+(7, 7, 7, '2024-04-07 14:00:00', '2024-04-07 17:00:00'),
+(8, 8, 8, '2024-04-08 15:00:00', '2024-04-08 18:00:00'),
+(9, 9, 9, '2024-04-09 16:00:00', '2024-04-09 19:00:00'),
+(10, 10, 10, '2024-04-10 17:00:00', '2024-04-10 20:00:00'),
+(11, 1, 2, '2024-04-11 08:00:00', '2024-04-11 10:00:00'),
+(12, 2, 3, '2024-04-12 09:00:00', '2024-04-12 11:00:00'),
+(13, 3, 4, '2024-04-13 10:00:00', '2024-04-13 12:00:00'),
+(14, 4, 5, '2024-04-14 11:00:00', '2024-04-14 13:00:00'),
+(15, 5, 6, '2024-04-15 12:00:00', '2024-04-15 14:00:00');
+
+-- Insert into Passengers (25 entries)
+INSERT INTO Passengers (passenger_id, first_name, last_name, surname, date_of_birth, gender, nationality, passport_number, email, phone_number, frequent_flyer, address, emergency_contact) VALUES
+(1, 'John', 'Doe', 'Smith', '1985-06-15', 'Male', 'USA', 'A123456789', 'john.doe@example.com', '123-456-7890', TRUE, '101 Main St, New York, NY', 'Jane Doe, 123-456-7891'),
+(2, 'Alice', 'Johnson', 'Brown', '1990-07-20', 'Female', 'USA', 'B987654321', 'alice.johnson@example.com', '987-654-3210', FALSE, '202 Elm St, Los Angeles, CA', 'Bob Johnson, 987-654-3212'),
+(3, 'Michael', 'Smith', 'Johnson', '1982-08-10', 'Male', 'USA', 'C112233445', 'michael.smith@example.com', '321-654-9870', TRUE, '303 Oak St, Chicago, IL', 'Mary Smith, 321-654-9871'),
+(4, 'Emma', 'Williams', 'Davis', '1995-09-15', 'Female', 'USA', 'D223344556', 'emma.williams@example.com', '654-321-0987', FALSE, '404 Pine St, Miami, FL', 'John Davis, 654-321-0988'),
+(5, 'Oliver', 'Brown', 'Wilson', '1988-10-20', 'Male', 'USA', 'E334455667', 'oliver.brown@example.com', '555-123-4567', TRUE, '505 Cedar St, Houston, TX', 'Ella Wilson, 555-123-4568'),
+(6, 'Ava', 'Jones', 'Garcia', '1992-11-25', 'Female', 'USA', 'F445566778', 'ava.jones@example.com', '666-987-6543', FALSE, '606 Maple St, Seattle, WA', 'Mia Garcia, 666-987-6544'),
+(7, 'Liam', 'Miller', 'Martinez', '1980-12-30', 'Male', 'USA', 'G556677889', 'liam.miller@example.com', '777-654-3210', TRUE, '707 Birch St, Atlanta, GA', 'Sophia Martinez, 777-654-3211'),
+(8, 'Sophia', 'Davis', 'Hernandez', '1996-01-05', 'Female', 'USA', 'H667788990', 'sophia.davis@example.com', '888-123-4567', FALSE, '808 Walnut St, Denver, CO', 'David Hernandez, 888-123-4568'),
+(9, 'Noah', 'Garcia', 'Lopez', '1984-02-12', 'Male', 'USA', 'I778899001', 'noah.garcia@example.com', '999-321-6540', TRUE, '909 Chestnut St, Washington, DC', 'Isabella Lopez, 999-321-6541'),
+(10, 'Mia', 'Rodriguez', 'Lee', '1989-03-22', 'Female', 'USA', 'J889900112', 'mia.rodriguez@example.com', '111-222-3333', FALSE, '1010 Ash St, New York, NY', 'Samuel Lee, 111-222-3334'),
+(11, 'Lucas', 'Martinez', 'Young', '1991-04-30', 'Male', 'USA', 'K990011223', 'lucas.martinez@example.com', '222-333-4444', TRUE, '1111 Palm St, Los Angeles, CA', 'Grace Young, 222-333-4445'),
+(12, 'Charlotte', 'Hernandez', 'Kim', '1986-05-14', 'Female', 'USA', 'L101112334', 'charlotte.hernandez@example.com', '333-444-5555', FALSE, '1212 Spruce St, Chicago, IL', 'James Kim, 333-444-5556'),
+(13, 'Ethan', 'Wilson', 'Chen', '1983-06-25', 'Male', 'USA', 'M121314455', 'ethan.wilson@example.com', '444-555-6666', TRUE, '1313 Fir St, Miami, FL', 'Olivia Chen, 444-555-6667'),
+(14, 'Harper', 'King', 'Singh', '1994-07-18', 'Female', 'USA', 'N141516566', 'harper.king@example.com', '555-666-7777', FALSE, '1414 Larch St, Houston, TX', 'Liam Singh, 555-666-7778'),
+(15, 'James', 'Lopez', 'Patel', '1987-08-12', 'Male', 'USA', 'O161718677', 'james.lopez@example.com', '666-777-8888', TRUE, '1515 Cedar St, Seattle, WA', 'Ella Patel, 666-777-8889'),
+(16, 'Lily', 'Gonzalez', 'Nguyen', '1993-09-20', 'Female', 'USA', 'P171819788', 'lily.gonzalez@example.com', '777-888-9999', FALSE, '1616 Hickory St, Atlanta, GA', 'John Nguyen, 777-888-9990'),
+(17, 'Benjamin', 'Anderson', 'Garcia', '1981-10-14', 'Male', 'USA', 'Q181920899', 'benjamin.anderson@example.com', '888-999-0000', TRUE, '1717 Walnut St, Denver, CO', 'Emily Garcia, 888-999-0001'),
+(18, 'Ella', 'Thomas', 'Kim', '1985-11-29', 'Female', 'USA', 'R192021900', 'ella.thomas@example.com', '999-000-1111', FALSE, '1818 Oak St, Washington, DC', 'Ava Kim, 999-000-1112'),
+(19, 'Alexander', 'Taylor', 'Lee', '1992-12-10', 'Male', 'USA', 'S202122011', 'alexander.taylor@example.com', '000-111-2222', TRUE, '1919 Pine St, New York, NY', 'Sophia Lee, 000-111-2223'),
+(20, 'Scarlett', 'Moore', 'Patel', '1996-01-18', 'Female', 'USA', 'T212223122', 'scarlett.moore@example.com', '111-222-3334', FALSE, '2020 Cedar St, Los Angeles, CA', 'Mason Patel, 111-222-3335'),
+(21, 'William', 'Jackson', 'Nguyen', '1989-02-27', 'Male', 'USA', 'U222324233', 'william.jackson@example.com', '222-333-4445', TRUE, '2121 Maple St, Chicago, IL', 'Olivia Nguyen, 222-333-4446'),
+(22, 'Chloe', 'White', 'Smith', '1988-03-14', 'Female', 'USA', 'V232425344', 'chloe.white@example.com', '333-444-5556', FALSE, '2222 Birch St, Miami, FL', 'James Smith, 333-444-5557'),
+(23, 'Henry', 'Harris', 'Jones', '1994-04-19', 'Male', 'USA', 'W242526455', 'henry.harris@example.com', '444-555-6667', TRUE, '2323 Fir St, Houston, TX', 'Ella Jones, 444-555-6668'),
+(24, 'Zoe', 'Martin', 'Davis', '1993-05-11', 'Female', 'USA', 'X252627566', 'zoe.martin@example.com', '555-666-7778', FALSE, '2424 Spruce St, Seattle, WA', 'John Davis, 555-666-7779'),
+(25, 'Jackson', 'Thompson', 'Nguyen', '1986-06-22', 'Male', 'USA', 'Y262728677', 'jackson.thompson@example.com', '666-777-8889', TRUE, '2525 Oak St, Atlanta, GA', 'Liam Nguyen, 666-777-8890');
+
+-- Insert into Bookings (25 entries)
+INSERT INTO Bookings (booking_id, booking_date, travel_date, seat_number, class, booking_status, payment_status, payment_method, ticket_price, special_requests, baggage_allowance, flight_id, passenger_id) VALUES
+(1, '2024-03-01 10:00:00', '2024-04-01', '12A', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 299.99, 'Window seat', '1 carry-on', 1, 1),
+(2, '2024-03-05 12:00:00', '2024-04-02', '14B', 'Business', 'Confirmed', 'Paid', 'Debit Card', 599.99, 'Vegetarian meal', '2 checked bags', 2, 2),
+(3, '2024-03-10 14:00:00', '2024-04-03', '16C', 'Economy', 'Pending', 'Unpaid', 'PayPal', 300.00, 'Extra legroom', '1 carry-on', 3, 3),
+(4, '2024-03-15 09:00:00', '2024-04-04', '18D', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 250.00, 'Aisle seat', '1 carry-on', 4, 4),
+(5, '2024-03-20 11:00:00', '2024-04-05', '22E', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 350.00, '', '1 carry-on', 5, 5),
+(6, '2024-03-25 13:00:00', '2024-04-06', '24F', 'Business', 'Pending', 'Unpaid', 'Debit Card', 650.00, 'Extra legroom', '2 checked bags', 6, 6),
+(7, '2024-03-30 15:00:00', '2024-04-07', '10A', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 299.99, 'Window seat', '1 carry-on', 7, 7),
+(8, '2024-04-01 12:00:00', '2024-04-08', '11B', 'Business', 'Confirmed', 'Paid', 'Debit Card', 599.99, 'Vegetarian meal', '2 checked bags', 8, 8),
+(9, '2024-04-03 10:30:00', '2024-04-09', '15C', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 199.99, 'Aisle seat', '1 carry-on', 9, 9),
+(10, '2024-04-04 14:30:00', '2024-04-10', '20D', 'Economy', 'Confirmed', 'Paid', 'PayPal', 299.99, '', '1 carry-on', 10, 10),
+(11, '2024-04-05 16:00:00', '2024-04-11', '12A', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 350.00, 'Window seat', '1 carry-on', 1, 1),
+(12, '2024-04-06 08:00:00', '2024-04-12', '14B', 'Business', 'Pending', 'Unpaid', 'Debit Card', 599.99, 'Extra meal', '2 checked bags', 2, 2),
+(13, '2024-04-07 09:00:00', '2024-04-13', '16C', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 299.99, '', '1 carry-on', 3, 3),
+(14, '2024-04-08 10:00:00', '2024-04-14', '18D', 'Economy', 'Confirmed', 'Paid', 'PayPal', 250.00, 'Window seat', '1 carry-on', 4, 4),
+(15, '2024-04-09 11:00:00', '2024-04-15', '20E', 'Business', 'Pending', 'Unpaid', 'Credit Card', 650.00, 'Extra legroom', '2 checked bags', 5, 5),
+(16, '2024-04-10 12:00:00', '2024-04-16', '22F', 'Economy', 'Confirmed', 'Paid', 'Debit Card', 350.00, '', '1 carry-on', 6, 6),
+(17, '2024-04-11 13:00:00', '2024-04-17', '24G', 'Business', 'Confirmed', 'Paid', 'PayPal', 599.99, 'Vegetarian meal', '2 checked bags', 7, 7),
+(18, '2024-04-12 14:00:00', '2024-04-18', '26H', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 199.99, 'Aisle seat', '1 carry-on', 8, 8),
+(19, '2024-04-13 15:00:00', '2024-04-19', '28I', 'Economy', 'Confirmed', 'Paid', 'Debit Card', 299.99, '', '1 carry-on', 9, 9),
+(20, '2024-04-14 16:00:00', '2024-04-20', '30J', 'Business', 'Confirmed', 'Paid', 'PayPal', 650.00, 'Window seat', '2 checked bags', 10, 10),
+(21, '2024-04-15 17:00:00', '2024-04-21', '32K', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 350.00, 'Extra meal', '1 carry-on', 1, 1),
+(22, '2024-04-16 08:00:00', '2024-04-22', '34L', 'Business', 'Pending', 'Unpaid', 'Debit Card', 599.99, 'Extra legroom', '2 checked bags', 2, 2),
+(23, '2024-04-17 09:00:00', '2024-04-23', '36M', 'Economy', 'Confirmed', 'Paid', 'Credit Card', 299.99, '', '1 carry-on', 3, 3),
+(24, '2024-04-18 10:00:00', '2024-04-24', '38N', 'Economy', 'Confirmed', 'Paid', 'PayPal', 199.99, 'Aisle seat', '1 carry-on', 4, 4),
+(25, '2024-04-19 11:00:00', '2024-04-25', '40O', 'Business', 'Confirmed', 'Paid', 'Debit Card', 650.00, 'Window seat', '2 checked bags', 5, 5);
