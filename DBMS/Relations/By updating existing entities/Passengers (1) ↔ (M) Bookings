@@ -1,0 +1,4 @@
+ALTER TABLE Bookings
+ADD CONSTRAINT fk_bookings_passengers
+FOREIGN KEY (passenger_id) REFERENCES Passengers(passenger_id)
+ON DELETE CASCADE ON UPDATE CASCADE;
