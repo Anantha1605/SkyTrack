@@ -1,0 +1,14 @@
+#Updates the booking status when a new booking is made.
+
+DELIMITER //
+
+CREATE TRIGGER After_Booking_Insert
+AFTER INSERT ON Bookings
+FOR EACH ROW
+BEGIN
+    UPDATE Flights
+    SET booking_status = 'Updated'
+    WHERE flight_id = NEW.flight_id;
+END //
+
+DELIMITER ;
