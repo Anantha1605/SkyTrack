@@ -1,0 +1,23 @@
+#This procedure retrieves flights based on a specified destination.
+
+DELIMITER //
+
+CREATE PROCEDURE Get_Flights_By_Destination(
+    IN p_destination_id INT
+)
+BEGIN
+    SELECT 
+        f.flight_id,
+        f.departure_time,
+        f.arrival_time,
+        a.operator_name,
+        a.model
+    FROM 
+        Flights f
+    JOIN 
+        Aircraft_Operators a ON f.aircraft_id = a.aircraft_id
+    WHERE 
+        f.destination_id = p_destination_id;
+END //
+
+DELIMITER ;
