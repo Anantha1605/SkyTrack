@@ -1,0 +1,14 @@
+#This view shows all flights along with the count of bookings for each flight.
+
+CREATE VIEW Flight_Bookings_View AS
+SELECT 
+    f.flight_id,
+    f.departure_time,
+    f.arrival_time,
+    COUNT(b.booking_id) AS total_bookings
+FROM 
+    Flights f
+LEFT JOIN 
+    Bookings b ON f.flight_id = b.flight_id
+GROUP BY 
+    f.flight_id;
