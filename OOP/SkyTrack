@@ -1,0 +1,432 @@
+//Flight Management system 
+#include<iostream>
+using namespace std;
+#include<string>
+#include<algorithm>
+#include<vector>
+#include<sstream>
+#include<iomanip>
+#include<ctime>
+class Flight{
+    private:
+        string name;
+        string id;
+        int capacity;
+        string arrival_time;
+        string departure_time;
+        string class_of_travel;
+        string destination;
+        string operator_name;
+
+        int duration(const string& arrival_time, const string& departure_time) const {
+            tm arrivalTm={};    
+            tm departureTm={};
+
+            // Parse arrival time
+            istringstream(arrival_time) >> get_time(&arrivalTm, "%Y-%m-%d %H:%M");
+            // Parse departure time
+            istringstream(departure_time) >> get_time(&departureTm, "%Y-%m-%d %H:%M");
+
+            // Convert to seconds
+            time_t arrivalSeconds = mktime(&arrivalTm);
+            time_t departureSeconds = mktime(&departureTm);
+
+            // Calculate the difference in seconds and convert to hours
+            return static_cast<int>(difftime(departureSeconds, arrivalSeconds) / 3600);
+        }
+
+    public:
+        Flight(const string& flightname, const string& flightid, int flightcapacity, 
+       const string& flightarrival_time, const string& flightdeparture_time, 
+       const string& flightclass_of_travel, const string& flightdestination, 
+       const string& flightoperator_name) {
+            name = flightname;
+            id = flightid;
+            capacity = flightcapacity;
+            arrival_time = flightarrival_time;
+            departure_time = flightdeparture_time;
+            class_of_travel = flightclass_of_travel;
+            destination = flightdestination;
+            operator_name = flightoperator_name;
+        }
+
+
+        string getname() const {
+            return name;
+        }
+        string getid() const {
+            return id;
+        }
+        int getcapacity() const {
+            return capacity;
+        }
+        string getdeparturetime() const {
+            return departure_time;
+        }
+        string getarrivaltime() const {
+            return arrival_time;
+        }
+        string getdestination() const {
+            return destination;
+        }
+        string getoperator_name() const {
+            return operator_name;
+        }
+        string getclass_of_travel() const{
+            return class_of_travel;
+        }
+        
+
+        // Key for sorting
+        string key() const {    
+            return id+arrival_time;
+        }
+
+        // to sort the data
+        void sortFlights(vector<Flight>& flights){
+            sort(flights.begin(), flights.end(), [](const Flight& a, const Flight& b) {
+                return a.key() < b.key();
+            });
+        }
+
+        // Flight duration
+        int getstayduration() const{
+            return duration(arrival_time, departure_time);
+        }
+        //Functions
+        bool insertorupdate(vector<Flight>& flights, const Flight& newFlight);
+        bool deleteFlight(vector<Flight>& flights, const string& flightId);
+        int getNumFlights(const vector<Flight>& flights);
+        bool isEmpty(const vector<Flight>& flights);
+        bool isFull(const vector<Flight>& flights, size_t max);
+        Flight getLongestStay(const vector<Flight>& flights);
+        void listUnique(vector<Flight>& flights);
+        void listUnion(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3);
+        void listIntersection(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3);
+        void listDifference(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3);
+        void listSymmetricDifference(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3);
+        void displayFlights(const vector<Flight>& flights);
+};
+
+/* ===== Inserting a new flights details or update existing flight details ===== */
+bool Flight::insertorupdate(vector<Flight>& flights, const Flight& newFlight) {
+    auto itr = find_if(flights.begin(), flights.end(), [&](const Flight& f) {
+        return f.key() == newFlight.key();
+    });
+
+    if (itr != flights.end()) {
+        *itr = newFlight;  // Update existing flight
+    } else {
+        flights.push_back(newFlight);  // Insert new flight
+    }
+
+    sortFlights(flights);  // Sort after insertion or update
+    return true;  // Indicating success
+}
+
+
+/* ===== Deleting an existing flights details ===== */
+bool Flight::deleteFlight(vector<Flight>& flights, const string& flightId){
+    for (auto itr = flights.begin() ; itr != flights.end(); ){
+        if (itr -> getid() == flightId){
+            itr = flights.erase(itr);
+            return true;
+        }
+        else{
+            ++itr;
+        }
+    }
+
+    return false;
+}
+
+/* ===== Number of Flights ===== */
+int Flight::getNumFlights(const vector<Flight>& flights) {
+    return flights.size();
+}
+
+/* ===== To check if the flights data is empty*/
+bool Flight::isEmpty(const vector<Flight>& flights){
+    return flights.empty();
+}
+
+/* ===== To check if the flights data is full*/
+bool Flight::isFull(const vector<Flight>& flights, size_t max){
+    return flights.size() > max;
+}
+
+/* ===== Longest stay ===== */
+Flight Flight::getLongestStay(const vector<Flight>& flights){
+    if (isEmpty(flights)){
+        throw runtime_error("Warning: No flights available!");//Displays text similar to cout but doesnt mess flow of execution
+    }
+
+    Flight longest = flights[0];
+    
+    for (const auto& flight : flights){// Similar to for i in list syntax of python
+        if (flight.getstayduration()>longest.getstayduration()){
+            longest = flight;
+        }
+    }
+
+    return longest;
+}
+
+/* ===== To list all Unique entries ===== */
+void Flight::listUnique(vector<Flight>& flights) {
+    sort(flights.begin(), flights.end(), [](const Flight& a, const Flight& b) {
+        return a.key() < b.key();
+    });
+
+    auto last = unique(flights.begin(), flights.end(), [](const Flight& a, const Flight& b) {
+        return a.key() == b.key(); // Compare keys
+    });
+
+    flights.erase(last, flights.end()); // Remove duplicates
+}
+
+/* ===== To list union of 2 list of entries ===== */
+void Flight::listUnion(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3){
+    list3 = list1;
+
+    for (const auto& flight : list2) {
+        if (none_of(list3.begin(), list3.end(), [&](const Flight& f) {
+            return f.key() == flight.key();
+        })) {
+            list3.push_back(flight);
+        }
+    }
+
+    sortFlights(list3);
+}
+
+/* ===== To list intersection of 2 list of entries ===== */
+void Flight::listIntersection(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3){
+    list3.clear(); // Clear output list
+
+    for (const auto& flight1 : list1) {
+        auto it = find_if(list2.begin(), list2.end(), [&](const Flight& flight2) {
+            return flight1.key() == flight2.key();
+        });
+
+        if (it != list2.end()) {
+            list3.push_back(flight1); // Add to intersection
+        }
+    }
+
+    sortFlights(list3); // Keep the intersection sorted
+}
+
+/* ===== To list Difference of 2 list of entries ===== */
+void Flight::listDifference(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3){
+    list3.clear(); // Clear output list
+
+    for (const auto& flight1 : list1) {
+        if (std::none_of(list2.begin(), list2.end(), [&](const Flight& flight2) {
+            return flight1.key() == flight2.key();
+        })) {
+            list3.push_back(flight1); // Add to difference
+        }
+    }
+
+    sortFlights(list3); // Keep the difference sorted
+}
+
+/* ===== To list hthe symmetric difference of 2 list of entries ===== */
+void Flight::listSymmetricDifference(const vector<Flight>& list1, const vector<Flight>& list2, vector<Flight>& list3){
+    list3.clear(); // Clear output list
+    vector<Flight> temp1, temp2;
+
+    listDifference(list1, list2, temp1); // Items in list1 but not in list2
+    listDifference(list2, list1, temp2); // Items in list2 but not in list1
+
+    list3.insert(list3.end(), temp1.begin(), temp1.end());
+    list3.insert(list3.end(), temp2.begin(), temp2.end());
+
+    sortFlights(list3); // Keep the symmetric difference sorted
+}
+  
+/* ===== Display details ===== */
+void Flight::displayFlights(const vector<Flight>& flights) {
+    cout << left << setw(20) << "Flight Name" 
+         << setw(15) << "Flight ID" 
+         << setw(10) << "Capacity" 
+         << setw(20) << "Arrival Time" 
+         << setw(20) << "Departure Time" 
+         << setw(15) << "Class" 
+         << setw(20) << "Destination" 
+         << setw(20) << "Operator" << endl;
+    
+    cout << string(130, '-') << endl;
+
+    for (const auto& flight : flights) {
+        cout << left << setw(20) << flight.getname() 
+             << setw(15) << flight.getid() 
+             << setw(10) << flight.getcapacity() 
+             << setw(20) << flight.getarrivaltime() 
+             << setw(20) << flight.getdeparturetime() 
+             << setw(15) << flight.getclass_of_travel() 
+             << setw(20) << flight.getdestination() 
+             << setw(20) << flight.getoperator_name() << endl;
+    }
+}
+
+
+
+int main() {
+    // Sample flight data
+    vector<Flight> flights;
+
+    // Creating some flight instances
+    Flight flight1("Airline A", "A001", 150, "2024-11-06 10:00", "2024-11-06 14:00", "Economy", "New York", "Airline A");
+    Flight flight2("Airline B", "B001", 180, "2024-11-06 09:00", "2024-11-06 13:00", "Business", "Los Angeles", "Airline B");
+    Flight flight3("Airline C", "C001", 200, "2024-11-06 11:00", "2024-11-06 15:00", "First", "Chicago", "Airline C");
+    Flight flight4("Airline A", "A002", 120, "2024-11-07 08:00", "2024-11-07 12:00", "Economy", "Miami", "Airline A");
+
+    // Inserting flights
+    flight1.insertorupdate(flights, flight1);
+    flight2.insertorupdate(flights, flight2);
+    flight3.insertorupdate(flights, flight3);
+    flight4.insertorupdate(flights, flight4);
+
+    // Displaying the flights
+    cout << "Flights after insertion:" << endl;
+    flight1.displayFlights(flights);
+    cout << endl;
+
+    // Updating a flight (updating flight2 details)
+    Flight updatedFlight2("Airline B", "B001", 180, "2024-11-06 09:00", "2024-11-06 16:00", "Business", "Los Angeles", "Airline B");
+    flight1.insertorupdate(flights, updatedFlight2);
+
+    // Displaying the flights after update
+    cout << "Flights after update:" << endl;
+    flight1.displayFlights(flights);
+    cout << endl;
+
+    // Deleting a flight (delete flight with id B001)
+    if (flight1.deleteFlight(flights, "B001")) {
+        cout << "Flight B001 deleted successfully." << endl;
+    } else {
+        cout << "Failed to delete flight B001." << endl;
+    }
+
+    // Displaying the flights after deletion
+    cout << "Flights after deletion:" << endl;
+    flight1.displayFlights(flights);
+    cout << endl;
+
+    // Checking if the list is empty or full
+    cout << "Number of flights: " << flight1.getNumFlights(flights) << endl;
+
+    // Checking the longest stay (duration between arrival and departure)
+    try {
+        Flight longestStayFlight = flight1.getLongestStay(flights);
+        cout << "Longest Stay Flight: " << longestStayFlight.getname() 
+             << " (" << longestStayFlight.getid() << ")" << endl;
+    } catch (const runtime_error& e) {
+        cout << e.what() << endl;
+    }
+
+    // Listing unique flights (if there are duplicates, it will remove them)
+    cout << "Unique Flights:" << endl;
+    flight1.listUnique(flights);
+    flight1.displayFlights(flights);
+    cout << endl;
+
+    // Demonstrating union of two flight lists
+    vector<Flight> flights2 = {flight2, flight3}; // Another list
+    vector<Flight> unionFlights;
+    flight1.listUnion(flights, flights2, unionFlights);
+    cout << "Union of Flights:" << endl;
+    flight1.displayFlights(unionFlights);
+    cout << endl;
+
+    // Demonstrating intersection of two flight lists
+    vector<Flight> intersectionFlights;
+    flight1.listIntersection(flights, flights2, intersectionFlights);
+    cout << "Intersection of Flights:" << endl;
+    flight1.displayFlights(intersectionFlights);
+    cout << endl;
+
+    // Demonstrating difference of two flight lists
+    vector<Flight> differenceFlights;
+    flight1.listDifference(flights, flights2, differenceFlights);
+    cout << "Difference of Flights (in flights but not in flights2):" << endl;
+    flight1.displayFlights(differenceFlights);
+    cout << endl;
+
+    // Demonstrating symmetric difference of two flight lists
+    vector<Flight> symmetricDifferenceFlights;
+    flight1.listSymmetricDifference(flights, flights2, symmetricDifferenceFlights);
+    cout << "Symmetric Difference of Flights:" << endl;
+    flight1.displayFlights(symmetricDifferenceFlights);
+    cout << endl;
+
+    return 0;
+}
+
+
+
+/*
+
+Flights after insertion:
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline A           A001           150       2024-11-06 10:00    2024-11-06 14:00    Economy        New York            Airline A
+Airline A           A002           120       2024-11-07 08:00    2024-11-07 12:00    Economy        Miami               Airline A
+Airline B           B001           180       2024-11-06 09:00    2024-11-06 13:00    Business       Los Angeles         Airline B
+Airline C           C001           200       2024-11-06 11:00    2024-11-06 15:00    First          Chicago             Airline C
+
+Flights after update:
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline A           A001           150       2024-11-06 10:00    2024-11-06 14:00    Economy        New York            Airline A
+Airline A           A002           120       2024-11-07 08:00    2024-11-07 12:00    Economy        Miami               Airline A
+Airline B           B001           180       2024-11-06 09:00    2024-11-06 16:00    Business       Los Angeles         Airline B
+Airline C           C001           200       2024-11-06 11:00    2024-11-06 15:00    First          Chicago             Airline C
+
+Flight B001 deleted successfully.
+Flights after deletion:
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline A           A001           150       2024-11-06 10:00    2024-11-06 14:00    Economy        New York            Airline A
+Airline A           A002           120       2024-11-07 08:00    2024-11-07 12:00    Economy        Miami               Airline A
+Airline C           C001           200       2024-11-06 11:00    2024-11-06 15:00    First          Chicago             Airline C
+
+Number of flights: 3
+Longest Stay Flight: Airline A (A001)
+Unique Flights:
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline A           A001           150       2024-11-06 10:00    2024-11-06 14:00    Economy        New York            Airline A
+Airline A           A002           120       2024-11-07 08:00    2024-11-07 12:00    Economy        Miami               Airline A
+Airline C           C001           200       2024-11-06 11:00    2024-11-06 15:00    First          Chicago             Airline C
+
+Union of Flights:
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline A           A001           150       2024-11-06 10:00    2024-11-06 14:00    Economy        New York            Airline A
+Airline A           A002           120       2024-11-07 08:00    2024-11-07 12:00    Economy        Miami               Airline A
+Airline B           B001           180       2024-11-06 09:00    2024-11-06 13:00    Business       Los Angeles         Airline B
+Airline C           C001           200       2024-11-06 11:00    2024-11-06 15:00    First          Chicago             Airline C
+
+Intersection of Flights:
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline C           C001           200       2024-11-06 11:00    2024-11-06 15:00    First          Chicago             Airline C
+
+Difference of Flights (in flights but not in flights2):
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline A           A001           150       2024-11-06 10:00    2024-11-06 14:00    Economy        New York            Airline A
+Airline A           A002           120       2024-11-07 08:00    2024-11-07 12:00    Economy        Miami               Airline A
+
+Symmetric Difference of Flights:
+Flight Name         Flight ID      Capacity  Arrival Time        Departure Time      Class          Destination         Operator
+----------------------------------------------------------------------------------------------------------------------------------
+Airline A           A001           150       2024-11-06 10:00    2024-11-06 14:00    Economy        New York            Airline A
+Airline A           A002           120       2024-11-07 08:00    2024-11-07 12:00    Economy        Miami               Airline A           
+Airline B           B001           180       2024-11-06 09:00    2024-11-06 13:00    Business       Los Angeles         Airline B
+
+
+*/
